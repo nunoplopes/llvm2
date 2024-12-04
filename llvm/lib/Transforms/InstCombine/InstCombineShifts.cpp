@@ -1466,7 +1466,7 @@ Instruction *InstCombinerImpl::visitLShr(BinaryOperator &I) {
     if (ShAmtC == BitWidth - 1) {
       // lshr i32 or(X,-X), 31 --> zext (X != 0)
       if (match(Op0, m_OneUse(m_c_Or(m_Neg(m_Value(X)), m_Deferred(X)))))
-        return new ZExtInst(Builder.CreateIsNotNull(X), Ty);
+        return UndefValue::get(Ty);
 
       // lshr i32 (X -nsw Y), 31 --> zext (X < Y)
       if (match(Op0, m_OneUse(m_NSWSub(m_Value(X), m_Value(Y)))))
